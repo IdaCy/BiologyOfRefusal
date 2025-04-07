@@ -123,3 +123,101 @@ def plot_big_subplots_of_projection(harmful_array, refused_array, harmless_array
     plt.tight_layout()
     plt.show()
 
+
+
+def plot_triple_cosine_across_layers(refdir, baddir, jbdir, cosine_fn):
+    """
+    Plots the triple similarities across layers:
+      - ref vs. bad
+      - bad vs. jail
+      - ref vs. jail
+    Takes in each direction of shape (layers, hidden_dim).
+    """
+    ref_bad_sims, bad_jail_sims, ref_jail_sims = [], [], []
+
+    for r_layer, b_layer, j_layer in zip(refdir, baddir, jbdir):
+        ref_bad_sims.append(cosine_fn(r_layer, b_layer))
+        bad_jail_sims.append(cosine_fn(b_layer, j_layer))
+        ref_jail_sims.append(cosine_fn(r_layer, j_layer))
+
+    # Plot them
+    plt.figure(figsize=(8, 5))
+    plt.plot(ref_bad_sims, label="Ref vs. Bad")
+    plt.plot(bad_jail_sims, label="Bad vs. Jail")
+    plt.plot(ref_jail_sims, label="Ref vs. Jail")
+    plt.legend()
+    plt.title("Cosine similarities across layers (ref vs. bad vs. jail)")
+    plt.xlabel("Layer")
+    plt.ylabel("Cosine similarity")
+    plt.show()
+
+    return ref_bad_sims, bad_jail_sims, ref_jail_sims
+
+def plot_quadruple_cosine_across_layers(refdir, baddir, jbdir, newdir, cosine_fn):
+    """
+    Plots the triple similarities across layers:
+      - ref vs. bad
+      - bad vs. jail
+      - ref vs. jail
+      - new
+    Takes in each direction of shape (layers, hidden_dim).
+    """
+    ref_bad_sims, bad_jail_sims, ref_jail_sims, new_jame_sims = [], [], [], []
+
+    for r_layer, b_layer, j_layer, n_layer in zip(refdir, baddir, jbdir, newdir):
+        ref_bad_sims.append(cosine_fn(r_layer, b_layer))
+        bad_jail_sims.append(cosine_fn(b_layer, j_layer))
+        ref_jail_sims.append(cosine_fn(r_layer, j_layer))
+        bad_jail_sims.append(cosine_fn(b_layer, j_layer))
+        new_jame_sims.append(cosine_fn(b_layer, n_layer))
+
+    # Plot them
+    plt.figure(figsize=(8, 5))
+    plt.plot(ref_bad_sims, label="Ref vs. Bad")
+    plt.plot(bad_jail_sims, label="Bad vs. Jail")
+    plt.plot(ref_jail_sims, label="Ref vs. Jail")
+    plt.plot(new_jame_sims, label="Bad vs. Good")
+    plt.legend()
+    plt.title("Cosine similarities across layers (ref vs. bad vs. jail)")
+    plt.xlabel("Layer")
+    plt.ylabel("Cosine similarity")
+    plt.show()
+
+    return ref_bad_sims, bad_jail_sims, ref_jail_sims, new_jame_sims
+
+
+"""def plot_big_subplots_of_projection(harmful_array, refused_array, harmless_array, new_array, seq_start=20):
+    """
+    #Large subplots; for each layer: plots lines across tokens (skipping seq_start).
+    #harmful_array, refused_array, harmless_array, new_array
+"""
+    fig, axes = plt.subplots(7, 5, figsize=(32, 32))
+    axes = axes.flatten()
+
+    colors = {'harmful': 'blue', 'rejected': 'orange', 'harmless': 'green', 'new': 'red'}
+    datasets = {
+        'harmful': harmful_array,
+        'rejected': refused_array,
+        'harmless': harmless_array,
+        'new': new_array
+    }
+
+    # used "for index, ax in enumerate(axes[:len(harmfulmeanedproj)])"
+    # - now 'harmful_array.shape[0]' for consistency
+    for index, ax in enumerate(axes[:harmful_array.shape[0]]):
+        for label, data in datasets.items():
+            # data[index].shape => (samples, seq_len)
+            # skip the first seq_start tokens, transpose so each sample is a line
+            ax.plot(data[index, :, seq_start:].T, color=colors[label], alpha=0.5, linewidth=1)
+        ax.set_title(f"Layer {index}")
+        ax.set_xticks([])
+
+    # Add a single legend outside the subplots
+    handles = [
+        plt.Line2D([0], [0], color=color, lw=2, label=lbl)
+        for lbl, color in colors.items()
+    ]
+    fig.legend(handles=handles, loc='upper right', bbox_to_anchor=(1.15, 1))
+
+    plt.tight_layout()
+    plt.show()"""
