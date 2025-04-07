@@ -168,7 +168,6 @@ def plot_quadruple_cosine_across_layers(refdir, baddir, jbdir, newdir, cosine_fn
         ref_bad_sims.append(cosine_fn(r_layer, b_layer))
         bad_jail_sims.append(cosine_fn(b_layer, j_layer))
         ref_jail_sims.append(cosine_fn(r_layer, j_layer))
-        bad_jail_sims.append(cosine_fn(b_layer, j_layer))
         new_jame_sims.append(cosine_fn(b_layer, n_layer))
 
     # Plot them
