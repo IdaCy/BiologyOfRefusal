@@ -1,0 +1,12 @@
+name: harmbenignrefusal
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.9
+  - pytorch
+  - cudatoolkit
+  - transformers
+  - scikit-learn
+  - matplotlib
+  - ipykernel
