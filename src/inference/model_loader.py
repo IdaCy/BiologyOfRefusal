@@ -134,6 +134,8 @@ def install_and_load_model(model_name, hf_token, max_seq_length, logger=None):
         if tokenizer.pad_token is None:
             tokenizer.pad_token = tokenizer.eos_token
         
+        tokenizer.padding_side = "left"
+        
         model = AutoModelForCausalLM.from_pretrained(
             model_name,
             token=hf_token
