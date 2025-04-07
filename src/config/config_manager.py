@@ -15,7 +15,7 @@ def get_config_for(model_name, dataset, hf_token):
         "model_name": model_name,
         "dataset": dataset,
         "hf_token": hf_token,
-        "batch_size": 32,
+        "batch_size": 8,
         "max_seq_length": 2048,
         "use_bfloat16": False,
         "log_file": "logs/jb_run" + model_short + dataset_name + "_progress.log",
