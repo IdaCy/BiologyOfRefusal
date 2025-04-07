@@ -34,7 +34,6 @@ def install_and_load_model(model_name, hf_token, max_seq_length, logger=None):
             device_map="auto",
             token=hf_token,
             torch_dtype=torch.float32,
-            device_map="auto",
             max_memory={0: "20GB", "cpu": "30GB"} 
         )
         model.to(device)
